@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Registration</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Visitor Registration Form</h2>
+        <form id="visitorForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" required><br>
+
+            <label for="company">Company Name:</label>
+            <input type="text" id="company" name="company"><br>
+
+            <label for="whomToMeet">Whom to Meet:</label>
+            <select id="whomToMeet" name="whomToMeet" required>
+                <option value="">Select</option>
+                <option value="Person1">Person1</option>
+                <option value="Person2">Person2</option>
+                <option value="Person3">Person3</option>
+                <option value="Person4">Person4</option>
+                <option value="Person5">Person5</option>
+                <option value="Person6">Person6</option>
+                <!-- Add more options as needed -->
+            </select><br>
+
+            <label for="belongings">Belongings:</label>
+            <input type="text" id="belongings" name="belongings"><br>
+
+            <label for="email">Email ID:</label>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="selfie">Selfie:</label>
+            <input type="file" id="selfie" name="selfie" accept="image/*" required><br>
+
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+
+        <div id="otpSection" style="display:none;">
+            <h2>Enter OTP</h2>
+            <input type="text" id="otp" name="otp" required>
+            <button type="button" onclick="verifyOTP()">Verify OTP</button>
+        </div>
+
+        
+
+      
+
+    <button id="startBtn">Open WebCam</button>
+    <button id="captureBtn">Capture Selfie</button>
+    <video id="video" width="500" height="400"></video>
+    <canvas id="canvas" width="500" height="400"></canvas>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let startBtn = document.getElementById("startBtn");
+            let captureBtn = document.getElementById("captureBtn");
+            let video = document.getElementById("video");
+            let canvas = document.getElementById("canvas");
+            let context = canvas.getContext("2d");
+            let mediaDevices = navigator.mediaDevices;
+
+            startBtn.addEventListener("click", () => {
+                mediaDevices.getUserMedia({ video: true, audio: false })
+                    .then((stream) => {
+                        video.srcObject = stream;
+                        video.addEventListener("loadedmetadata", () => {
+                            video.play();
+                        });
+                    })
+                    .catch(alert);
+            });
+
+            captureBtn.addEventListener("click", () => {
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                let selfie = canvas.toDataURL("image/png");
+                console.log(selfie);
+                // You can now use the selfie variable to upload the image to a server or save it locally
+            });
+        });
+    </script>
+
+
+
+
+        <div id="result"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
